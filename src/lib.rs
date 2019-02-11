@@ -1,4 +1,4 @@
-mod trie {
+pub mod trie {
     struct TrieNode {
         data: Option<char>,
         children: Vec<usize>,
@@ -8,8 +8,14 @@ mod trie {
         nodes: Vec<TrieNode>,
     }
 
+    impl Default for Trie {
+        fn default() -> Self {
+            Trie::new()
+        }
+    }
+
     impl Trie {
-        pub fn new() -> Trie {
+        pub fn new() -> Self {
             Trie {
                 nodes: vec![TrieNode {
                     data: None,
@@ -117,7 +123,6 @@ mod trie {
             assert_eq!(trie.nodes.len(), 11);
             assert_eq!(trie.nodes[8].children.len(), 2);
             assert_eq!(trie.nodes[8].children[1], 10);
-
         }
 
         #[test]
@@ -128,7 +133,7 @@ mod trie {
             trie.add("hello");
             assert_eq!(trie.contains("hello"), true);
             assert_eq!(trie.contains("help"), false);
-            
+
             trie.add("help");
             assert_eq!(trie.contains("help"), true);
         }

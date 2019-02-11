@@ -3,7 +3,7 @@ struct TrieNode {
     children: Vec<usize>,
 }
 
-pub struct Trie {
+struct Trie {
     nodes: Vec<TrieNode>,
 }
 

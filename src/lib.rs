@@ -101,6 +101,9 @@ pub mod trie {
             assert_eq!(trie.nodes[1].children.len(), 1);
             assert_eq!(trie.nodes[1].children[0], 2);
 
+            trie.add("hell");
+            assert_eq!(trie.nodes.len(), 6);
+
             trie.add("help");
             assert_eq!(trie.nodes.len(), 7);
             assert_eq!(trie.nodes[3].children.len(), 2);
@@ -132,6 +135,7 @@ pub mod trie {
 
             trie.add("hello");
             assert_eq!(trie.contains("hello"), true);
+            assert_eq!(trie.contains("hell"), true);
             assert_eq!(trie.contains("help"), false);
 
             trie.add("help");

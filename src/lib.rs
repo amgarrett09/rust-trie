@@ -61,7 +61,7 @@ pub mod trie {
                 }
             }
 
-            // Set last note to be a valid endpoint for a keyword
+            // Set last node to be a valid endpoint for a keyword
             self.nodes[index].valid_word = true;
         }
 

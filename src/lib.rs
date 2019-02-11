@@ -52,6 +52,31 @@ mod trie {
                 }
             }
         }
+
+        pub fn contains(&self, st: &str) -> bool {
+            let mut index = 0;
+
+            for ch in st.chars() {
+                if self.nodes[index].children.is_empty() {
+                    return false;
+                }
+
+                let mut found = false;
+                for i in self.nodes[index].children.iter() {
+                    if self.nodes[*i].data == Some(ch) {
+                        index = *i;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if !found {
+                    return false;
+                }
+            }
+
+            true
+        }
     }
 
     #[cfg(test)]
@@ -94,6 +119,20 @@ mod trie {
             assert_eq!(trie.nodes[8].children[1], 10);
 
         }
+
+        #[test]
+        fn test_contains() {
+            let mut trie = Trie::new();
+            assert_eq!(trie.contains("hello"), false);
+
+            trie.add("hello");
+            assert_eq!(trie.contains("hello"), true);
+            assert_eq!(trie.contains("help"), false);
+            
+            trie.add("help");
+            assert_eq!(trie.contains("help"), true);
+        }
+
     }
 
 }

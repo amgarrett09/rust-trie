@@ -2,6 +2,7 @@ pub mod trie {
     struct TrieNode {
         data: Option<char>,
         children: Vec<usize>,
+        valid_word: bool,
     }
 
     pub struct Trie {
@@ -20,6 +21,7 @@ pub mod trie {
                 nodes: vec![TrieNode {
                     data: None,
                     children: Vec::new(),
+                    valid_word: false,
                 }],
             }
         }
@@ -51,12 +53,16 @@ pub mod trie {
                     self.nodes.push(TrieNode {
                         data: Some(ch),
                         children: Vec::new(),
+                        valid_word: false,
                     });
 
                     // On next iteration, start at new node we just created
                     index = new_index;
                 }
             }
+
+            // Set last note to be a valid endpoint for a keyword
+            self.nodes[index].valid_word = true;
         }
 
         pub fn contains(&self, st: &str) -> bool {
@@ -81,7 +87,8 @@ pub mod trie {
                 }
             }
 
-            true
+            // Return true if the last char we found is a valid word endpoint
+            self.nodes[index].valid_word
         }
     }
 
@@ -95,6 +102,8 @@ pub mod trie {
             trie.add("hello");
 
             assert_eq!(trie.nodes.len(), 6);
+            assert_eq!(trie.nodes[5].valid_word, true);
+            assert_eq!(trie.nodes[4].valid_word, false);
 
             let mut char = "h".chars();
             assert_eq!(trie.nodes[1].data, char.next());
@@ -103,6 +112,7 @@ pub mod trie {
 
             trie.add("hell");
             assert_eq!(trie.nodes.len(), 6);
+            assert_eq!(trie.nodes[4].valid_word, true);
 
             trie.add("help");
             assert_eq!(trie.nodes.len(), 7);
@@ -135,7 +145,7 @@ pub mod trie {
 
             trie.add("hello");
             assert_eq!(trie.contains("hello"), true);
-            assert_eq!(trie.contains("hell"), true);
+            assert_eq!(trie.contains("hell"), false);
             assert_eq!(trie.contains("help"), false);
 
             trie.add("help");

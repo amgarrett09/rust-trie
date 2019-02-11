@@ -46,7 +46,7 @@ impl Trie {
                     children: Vec::new(),
                 });
 
-                // Start again at the node we just added
+                // On next iteration, start at new node we just created
                 index = new_index;
             }
         }

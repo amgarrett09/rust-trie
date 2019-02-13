@@ -100,8 +100,8 @@ pub mod trie {
             trie.add("hello");
 
             assert_eq!(trie.nodes.len(), 6);
-            assert_eq!(trie.nodes[5].valid_word, true);
-            assert_eq!(trie.nodes[4].valid_word, false);
+            assert!(trie.nodes[5].valid_word);
+            assert!(!trie.nodes[4].valid_word);
 
             let mut char = "h".chars();
             assert_eq!(trie.nodes[1].data, char.next());
@@ -110,7 +110,7 @@ pub mod trie {
 
             trie.add("hell");
             assert_eq!(trie.nodes.len(), 6);
-            assert_eq!(trie.nodes[4].valid_word, true);
+            assert!(trie.nodes[4].valid_word);
 
             trie.add("help");
             assert_eq!(trie.nodes.len(), 7);
@@ -139,12 +139,12 @@ pub mod trie {
         #[test]
         fn test_contains() {
             let mut trie = Trie::new();
-            assert_eq!(trie.contains("hello"), false);
+            assert!(!trie.contains("hello"));
 
             trie.add("hello");
-            assert_eq!(trie.contains("hello"), true);
-            assert_eq!(trie.contains("hell"), false);
-            assert_eq!(trie.contains("help"), false);
+            assert!(trie.contains("hello"));
+            assert!(!trie.contains("hell"));
+            assert!(!trie.contains("help"));
 
             trie.add("help");
             assert_eq!(trie.contains("help"), true);

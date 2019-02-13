@@ -28,17 +28,17 @@ pub mod trie {
 
         pub fn add(&mut self, st: &str) {
             // The current node we're looking at
-            let mut index = 0;
+            let mut current = 0;
 
             for ch in st.chars() {
                 let mut found = false;
 
                 // Look at each child of the current node
-                for i in self.nodes[index].children.iter() {
+                for child in self.nodes[current].children.iter() {
                     // If we find the char we're looking for
-                    if self.nodes[*i].data == Some(ch) {
+                    if self.nodes[*child].data == Some(ch) {
                         // Change current node to that child
-                        index = *i;
+                        current = *child;
                         found = true;
                         break;
                     }
@@ -47,7 +47,7 @@ pub mod trie {
                 // If none of the children contain our char, create a new node
                 if !found {
                     let new_index = self.nodes.len();
-                    self.nodes[index].children.push(new_index);
+                    self.nodes[current].children.push(new_index);
                     self.nodes.push(TrieNode {
                         data: Some(ch),
                         children: Vec::new(),
@@ -55,26 +55,26 @@ pub mod trie {
                     });
 
                     // On next iteration, start at new node we just created
-                    index = new_index;
+                    current = new_index;
                 }
             }
 
             // Set last node to be a valid endpoint for a keyword
-            self.nodes[index].valid_word = true;
+            self.nodes[current].valid_word = true;
         }
 
         pub fn contains(&self, st: &str) -> bool {
-            let mut index = 0;
+            let mut current = 0;
 
             for ch in st.chars() {
-                if self.nodes[index].children.is_empty() {
+                if self.nodes[current].children.is_empty() {
                     return false;
                 }
 
                 let mut found = false;
-                for i in self.nodes[index].children.iter() {
-                    if self.nodes[*i].data == Some(ch) {
-                        index = *i;
+                for child in self.nodes[current].children.iter() {
+                    if self.nodes[*child].data == Some(ch) {
+                        current = *child;
                         found = true;
                         break;
                     }
@@ -86,7 +86,7 @@ pub mod trie {
             }
 
             // Return true if the last char we found is a valid word endpoint
-            self.nodes[index].valid_word
+            self.nodes[current].valid_word
         }
     }
 

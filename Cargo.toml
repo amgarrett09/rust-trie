@@ -5,3 +5,8 @@ authors = ["Alex Garrett <agarrettR8@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+criterion = "0.2.10"
+
+[[bench]]
+name = "bench_trie"
+harness = false

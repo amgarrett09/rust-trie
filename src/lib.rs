@@ -33,16 +33,14 @@ pub mod trie {
             for ch in st.chars() {
                 let mut found = false;
 
-                if !self.nodes[index].children.is_empty() {
-                    // Look at each child of the current node
-                    for i in self.nodes[index].children.iter() {
-                        // If we find the char we're looking for
-                        if self.nodes[*i].data == Some(ch) {
-                            // Change current node to that child
-                            index = *i;
-                            found = true;
-                            break;
-                        }
+                // Look at each child of the current node
+                for i in self.nodes[index].children.iter() {
+                    // If we find the char we're looking for
+                    if self.nodes[*i].data == Some(ch) {
+                        // Change current node to that child
+                        index = *i;
+                        found = true;
+                        break;
                     }
                 }
 
